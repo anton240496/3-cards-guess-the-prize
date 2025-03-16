@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body class="body" id="body">
+    <!-- салют -->
+    <div class="firework"></div>
+    <div class="firework"></div>
+    <div class="firework"></div>
+
+    <h1 class="title">казино</h1>
+    <ul id="numberlist">
+        <li class="content c1" data-pos="0">приз</li>
+        <li class="content c2" data-pos="1">пусто</li>
+        <li class="content c3" data-pos="2">пусто</li>
+    </ul>
+
+    <div class="btns_all">
+        <input class="btnk btns" id="shuffle-btn" type="submit" value="Начать игру" />
+        <div class="btnk result"></div>
+    </div>
+
+</body>
+<style>
+    /* фон */
+    body {
+        background:
+            linear-gradient(#0007, #0000),
+            #123;
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* фейерверки при победе */
+    @keyframes fr {
+        0% {
+            transform: translate(var(--x), var(--initialY));
+            width: var(--initialSize);
+            opacity: 1;
+        }
+
+        50% {
+            width: 0.5vmin;
+            opacity: 1;
+        }
+
+        100% {
+            width: var(--finalSize);
+            opacity: 0;
+        }
+    }
+
+
+    .fr,
+    .fr::before,
+    .fr::after {
+        --initialSize: 10vmin;
+        --finalSize: 100vmin;
+        --particleSize: 10vmin;
+        --color1: yellow;
+        --color2: khaki;
+        --color3: white;
+        --color4: lime;
+        --color5: gold;
+        --color6: mediumseagreen;
+        --y: -30vmin;
+        --x: -50%;
+        --initialY: 60vmin;
+        content: "";
+        animation: fr 2s infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, var(--y));
+        width: var(--initialSize);
+        aspect-ratio: 1;
+        background:
+
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 50% 0%,
+            radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 100% 50%,
+            radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 50% 100%,
+            radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 0% 50%,
+
+            /* bottom right */
+            radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 80% 90%,
+            radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 95% 90%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 90% 70%,
+            radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 100% 60%,
+            radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 55% 80%,
+            radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 70% 77%,
+
+            /* bottom left */
+            radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 55% 90%,
+            radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 45% 90%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 33% 70%,
+            radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 10% 60%,
+            radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 31% 80%,
+            radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 28% 77%,
+            radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 13% 72%,
+
+            /* top left */
+            radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 80% 10%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 95% 14%,
+            radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 90% 23%,
+            radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 100% 43%,
+            radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 85% 27%,
+            radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 77% 37%,
+            radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 60% 7%,
+
+            /* top right */
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 22% 14%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 45% 20%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 33% 34%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 10% 29%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 31% 37%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 28% 7%,
+            radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 13% 42%;
+        background-size: var(--initialSize) var(--initialSize);
+        background-repeat: no-repeat;
+    }
+
+    /* анимированный фон */
+    .body {
+        background: rgb(208, 0, 255);
+        box-shadow: 0 -200px 100px -120px rgb(183, 20, 220) inset;
+        animation: background 3s infinite alternate;
+        padding: 0 10px;
+        position: relative;
+        height: 700px;
+    }
+
+    @keyframes background {
+        50% {
+            background: skyblue;
+            box-shadow: 0 -200px 100px -100px rgb(205, 50, 187) inset;
+        }
+    }
+
+    .title {
+        font-size: 50px;
+        text-align: center;
+        color: #a581bd;
+        text-shadow: 0 0 5px #dc2525, 0 0 10px #b04646, 0 0 20px #a31616, 0 0 40px #ff00f7, 0 0 80px #bc00ff, 0 0 90px #ff0095, 0 0 100px #ff00bb, 0 0 150px #fb00ff;
+    }
+
+    ul {
+        list-style: none;
+        position: relative;
+
+    }
+
+    .content {
+        width: 100%;
+        height: 70px;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translateY(calc(100px* var(--pos)));
+        transform: translateY(calc(100px* var(--pos)));
+        background: repeating-conic-gradient(#c2acff 17%, #a892e4 23%, #6d2661 25%, #415b5a 21%, #8f00cb 30%, #8925a6 33%);
+        font-size: 40px;
+        font-weight: 800;
+        border-radius: 5px;
+        color: cornsilk;
+        border: none;
+        color: transparent;
+        cursor: pointer;
+        pointer-events: none;
+    }
+
+    /* 
+        использую переменную --pos, которая задает кратность отступа,
+        в тоже время оставил возможность задавать отступы в стилях
+       */
+    /* эффектное появление результата */
+    .resulta {
+        animation: rotate3d 0.7s;
+    }
+
+    @keyframes rotate3d {
+        0% {
+            transform: rotate3d(1, 1, 1, 0deg);
+        }
+
+        100% {
+            transform: rotate3d(1, 1, 1, 360deg);
+        }
+
+
+    }
+
+    .btns_all {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        height: 200px;
+        bottom: 110px;
+        width: 90%;
+        gap: 30px;
+        text-align: center;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, 0%)
+    }
+
+    .btnk {
+        height: 80px;
+        border: 1px solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        border-radius: 5px;
+        border: none;
+        color: #c2acff;
+    }
+
+    /* эффектная кнопка */
+    .btns {
+        background: linear-gradient(45deg, #5268ee, #e73c7e, #23a6d5, #2339d5);
+        cursor: pointer;
+    }
+
+
+
+    /* эффект загрузки во время анимации */
+
+    .btnl {
+        background-size: 400% 400%;
+        animation: gradient 1s ease infinite;
+        transform: translate3d(0, 0, 0);
+        cursor: none;
+    }
+
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    /* результат */
+    .result {
+        font-size: 0px;
+        font-weight: 800;
+        transition: all 1s;
+    }
+
+    .resulta {
+        font-size: 50px;
+    }
+</style>
+<script>
+
+    body = document.getElementById("body")
+    const $list = document.getElementById("numberlist"),
+        $btn = document.getElementById("shuffle-btn"),
+        $btn1 = document.getElementById("shuffle-btn"),
+        act = document.querySelectorAll('.content'),
+        res = document.querySelector('.result'),
+        fr = document.querySelector('.firework'),
+        blocksToChange = document.querySelectorAll('.content'),
+        buttons = document.querySelectorAll('.content'),
+        seconds = 5,
+        children = $list.children,
+        n = children.length;
+
+    const awaitTransitionEnd = (el) =>
+        new Promise((resolve) => {
+            el.addEventListener("transitionend", resolve, { once: true });
+        });
+
+    const setPositions = () => {
+        // читаем датасет в одном цикле и устанавливаем свойство pos в другом
+        Array.from({ length: n }, (_, i) => children[i].dataset.pos).forEach(
+            (pos, i) => children[i].style.setProperty("--pos", pos)
+        );
+    };
+    const shuffle = function () {
+        const data = [],
+            result = [];
+        for (let i = 0; i < n; i++) data[i] = children[i].dataset.pos;
+
+        for (let i = n - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [data[i], data[j]] = [data[j], data[i]];
+        }
+        for (let i = 0; i < n; i++) {
+            if (children[i].dataset.pos != data[i]) result.push(children[i]);
+            children[i].dataset.pos = data[i];
+        }
+        // на случай если рандом не сработал
+        if (!result.length) {
+            data.forEach((_, i) => {
+                children[i].dataset.pos = data[i + 1 == n ? 0 : i + 1];
+                result.push(children[i]);
+            });
+        }
+        setPositions()
+        return result;
+    };
+    //запустим рандом при запуске, чтобы приз был в рандонм блоке
+    window.onload = shuffle;
+
+    const shuffleForSeconds = async () => {
+        for (let i = 0; i < seconds; i++) {
+            await Promise.all(shuffle().map(awaitTransitionEnd));
+        }
+    };
+    //    действие кнопки
+
+    $btn.addEventListener("click", async () => {
+
+        if ($btn.disabled) return;
+        act.forEach(block => block.style.pointerEvents = 'none');
+        act.forEach(block => block.style.color = 'transparent');
+        act.forEach(block => block.style.transition = 'transform 1s ease-out');
+        res.style.color = 'transparent';
+        $btn.disabled = true;
+        // включаем эффект
+        $btn.classList.add('btnl');
+        // удалим некоторые эффекты
+        fr.classList.remove('fr');
+        res.classList.remove('resulta');
+        blocksToChange.forEach(e => { e.classList.remove('con_a') });
+        // таймер перемешивания
+        await shuffleForSeconds();
+
+        // выключаем эффект
+        $btn.classList.remove('btnl');
+        $btn.disabled = false;
+        act.forEach(block => block.style.pointerEvents = 'auto');
+
+    });
+
+    setPositions();
+
+    // раскрытие карточек
+
+    for (button of buttons) {
+
+        button.addEventListener('click', () => {
+            blocksToChange.forEach(block => block.style.color = '#edb9b9');
+            blocksToChange.forEach(e => { e.classList.add('con_a') });
+        })
+
+        document.querySelector('#numberlist').addEventListener('click', e => {
+            res.classList.add('resulta');
+            act.forEach(block => block.style.pointerEvents = 'none');
+            let content = e.target.innerHTML;
+            if (content === "приз") {
+                document.getElementsByClassName("result")[0].textContent = "победа"
+                res.style.color = 'green';
+                // запустим фейверк
+                fr.classList.add('fr');
+            } else {
+                document.getElementsByClassName("result")[0].textContent = "попробуйте еще раз"
+                res.style.color = 'red';
+            }
+        });
+    }
+
+
+
+</script>
+
+</html>
